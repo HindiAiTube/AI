@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Full AI Web Course — Single File</title>
+  <!-- Tailwind CDN for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- TensorFlow.js for in-browser demos -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
+  <!-- jsPDF for certificate generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Simple CodeMirror for live code editing (lightweight) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/javascript/javascript.min.js"></script>
+  <style>
+    /* small extra styles to improve preview */
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,250,0.9)); }
+    .cm-editor { height: 220px; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 leading-relaxed">
+  <header class="bg-gradient-to-r from-indigo-600 to-sky-500 text-white p-6 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Interactive AI Crash Course</h1>
+        <p class="text-sm opacity-90">Everything a beginner needs — lessons, interactive demos, quizzes, glossary & certificate — all in one file.</p>
+      </div>
+      <nav class="space-x-3 hidden md:block">
+        <a href="#syllabus" class="hover:underline">Syllabus</a>
+        <a href="#lessons" class="hover:underline">Lessons</a>
+        <a href="#playground" class="hover:underline">Playground</a>
+        <a href="#quiz" class="hover:underline">Quiz</a>
+        <a href="#resources" class="hover:underline">Resources</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6 space-y-8">
+    <!-- Hero -->
+    <section class="grid lg:grid-cols-2 gap-6 items-center">
+      <div class="card p-6 rounded-2xl shadow-md">
+        <h2 class="text-3xl font-extrabold mb-2">Welcome to your first AI course</h2>
+        <p class="mb-4">This single-file course is designed to give you a practical, hands-on introduction to artificial intelligence and machine learning. Follow the syllabus, work through the interactive lessons, try code in the playground, and test your understanding with the quiz.</p>
+        <ul class="list-disc pl-5 text-sm opacity-90">
+          <li>Beginner-friendly explanations</li>
+          <li>Interactive browser demos (no install)</li>
+          <li>Download a completion certificate</li>
+        </ul>
+        <div class="mt-4">
+          <button onclick="document.getElementById('lessons').scrollIntoView({behavior:'smooth'})" class="px-4 py-2 bg-white text-indigo-700 rounded-md shadow">Start Lessons</button>
+          <button onclick="document.getElementById('playground').scrollIntoView({behavior:'smooth'})" class="ml-3 px-4 py-2 bg-indigo-700 text-white rounded-md shadow">Open Playground</button>
+        </div>
+      </div>
+      <div class="card p-6 rounded-2xl shadow-md">
+        <h3 class="font-bold">Course at a glance</h3>
+        <ol class="mt-3 list-decimal pl-5">
+          <li>Intro to AI & Terminology</li>
+          <li>Data, Features & Preprocessing</li>
+          <li>Classical ML Algorithms</li>
+          <li>Neural Networks & Deep Learning</li>
+          <li>Training, Evaluation & Deployment</li>
+          <li>Ethics, Bias & Best Practices</li>
+          <li>Interactive Playground & Mini-project</li>
+        </ol>
+        <div class="mt-4 text-sm opacity-90">
+          <strong>Time estimate:</strong> 4–12 hours (self-paced)
+        </div>
+      </div>
+    </section>
+
+    <!-- Syllabus -->
+    <section id="syllabus" class="card p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold">Syllabus</h2>
+      <div class="grid md:grid-cols-3 gap-4 mt-4">
+        <div class="p-4 border rounded-lg">
+          <h4 class="font-semibold">Module 1 — Foundations</h4>
+          <ul class="text-sm mt-2 list-disc pl-5">
+            <li>What is AI, ML, DL</li>
+            <li>Supervised / Unsupervised / Reinforcement</li>
+            <li>Basic math: linear algebra, probability</li>
+          </ul>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <h4 class="font-semibold">Module 2 — Data</h4>
+          <ul class="text-sm mt-2 list-disc pl-5">
+            <li>Gathering & formatting data</li>
+            <li>Feature engineering</li>
+            <li>Train/Val/Test splits</li>
+          </ul>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <h4 class="font-semibold">Module 3 — Models</h4>
+          <ul class="text-sm mt-2 list-disc pl-5">
+            <li>Regression & classification</li>
+            <li>Decision trees, SVM, k-NN</li>
+            <li>Neural networks & CNNs/RNNs</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lessons -->
+    <section id="lessons" class="space-y-6">
+      <h2 class="text-2xl font-bold">Lessons (interactive)</h2>
+
+      <article class="card p-6 rounded-2xl shadow-sm">
+        <h3 class="font-semibold">Lesson 1 — What is AI?</h3>
+        <p class="mt-2">Artificial Intelligence (AI) is a set of techniques that enable machines to mimic intelligence. Machine Learning (ML) is a subset of AI that learns from data. Deep Learning (DL) uses neural networks with many layers.</p>
+        <details class="mt-3">
+          <summary class="cursor-pointer font-medium">Key terms</summary>
+          <ul class="mt-2 list-disc pl-5 text-sm opacity-90">
+            <li><strong>Model:</strong> A function that maps inputs to outputs.</li>
+            <li><strong>Training:</strong> The process of finding model parameters from data.</li>
+            <li><strong>Overfitting:</strong> When a model learns noise and fails to generalize.</li>
+          </ul>
+        </details>
+      </article>
+
+      <article class="card p-6 rounded-2xl shadow-sm">
+        <h3 class="font-semibold">Lesson 2 — Data & Preprocessing</h3>
+        <p class="mt-2">Good data is the backbone of ML. Learn to clean, normalize, handle missing values, and engineer features.</p>
+        <pre class="mt-3 bg-gray-100 p-3 rounded"><code>Example: scale values to zero mean and unit variance (z-score)</code></pre>
+      </article>
+
+      <article class="card p-6 rounded-2xl shadow-sm">
+        <h3 class="font-semibold">Lesson 3 — A simple model by hand</h3>
+        <p class="mt-2">We'll implement linear regression in the Playground using TensorFlow.js. Open the Playground to run it live.</p>
+      </article>
+
+      <article class="card p-6 rounded-2xl shadow-sm">
+        <h3 class="font-semibold">Lesson 4 — Evaluation & Metrics</h3>
+        <p class="mt-2">Common metrics: accuracy, precision, recall, F1-score for classification; MSE and MAE for regression. Always evaluate on a test set you didn't train on.</p>
+      </article>
+
+      <article class="card p-6 rounded-2xl shadow-sm">
+        <h3 class="font-semibold">Lesson 5 — Ethics & Bias</h3>
+        <p class="mt-2">AI models can amplify bias in data. Think about fairness, privacy, and explainability. Regularly validate models across subgroups and keep humans in the loop.</p>
+      </article>
+
+    </section>
+
+    <!-- Playground -->
+    <section id="playground" class="card p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold">Playground — Run & modify code in your browser</h2>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-medium">Code editor (JavaScript)</label>
+          <textarea id="editor" class="cm-editor mt-2 p-2 border rounded">// Simple linear regression in TensorFlow.js
+const xs = tf.tensor1d([0,1,2,3,4]);
+const ys = tf.tensor1d([1,3,5,7,9]); // y = 2x + 1 (noisy-free)
+
+async function trainAndPredict(){
+  const model = tf.sequential();
+  model.add(tf.layers.dense({units:1, inputShape:[1]}));
+  model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
+
+  const history = await model.fit(xs, ys, {epochs: 50});
+  const pred = model.predict(tf.tensor1d([10]));
+  pred.print();
+  document.getElementById('play-output').textContent = 'Prediction for x=10: ' + pred.dataSync()[0].toFixed(4);
+}
+
+trainAndPredict();</textarea>
+          <div class="mt-3">
+            <button id="runBtn" class="px-3 py-1 bg-indigo-600 text-white rounded">Run code</button>
+            <button id="resetBtn" class="ml-2 px-3 py-1 bg-gray-200 rounded">Reset</button>
+          </div>
+        </div>
+        <div>
+          <label class="font-medium">Output</label>
+          <div id="play-output" class="mt-2 p-4 bg-white border rounded h-40 overflow-auto"></div>
+
+          <div class="mt-4">
+            <label class="font-medium">Live chart (training loss)</label>
+            <canvas id="lossChart" class="w-full h-40 bg-white border rounded mt-2"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-sm opacity-80 mt-3">Tip: modify the data and model in the editor to see how training changes.</p>
+    </section>
+
+    <!-- Quiz -->
+    <section id="quiz" class="card p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold">Quick quiz — test your understanding</h2>
+      <div id="quiz-container" class="mt-4 space-y-4">
+        <!-- quiz items inserted by JS -->
+      </div>
+      <div class="mt-4">
+        <button id="submitQuiz" class="px-4 py-2 bg-indigo-600 text-white rounded">Submit Quiz</button>
+        <button id="certBtn" class="ml-3 px-4 py-2 bg-green-600 text-white rounded">Generate Certificate</button>
+      </div>
+      <div id="quiz-result" class="mt-3 font-medium"></div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="card p-6 rounded-2xl shadow-md">
+      <h2 class="text-2xl font-bold">Resources & Next Steps</h2>
+      <ul class="mt-3 list-disc pl-5">
+        <li>Textbook suggestions: "Hands-On Machine Learning" by Aurélien Géron</li>
+        <li>Free courses: Fast.ai, Coursera (Machine Learning by Andrew Ng)</li>
+        <li>Practice: Kaggle datasets, Google Colab notebooks</li>
+      </ul>
+      <p class="mt-3 text-sm opacity-90">Want a tailored learning plan? Click "Get Personalized Plan" below and answer a short form.</p>
+      <div class="mt-3">
+        <button id="personalPlanBtn" class="px-4 py-2 bg-indigo-700 text-white rounded">Get Personalized Plan</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-sm text-center opacity-80 py-4">Made with ♥ — Interactive Single-file AI Course • Edit any section to suit your needs.</footer>
+  </main>
+
+  <script>
+    // -------------------- CodeMirror setup --------------------
+    const textarea = document.getElementById('editor');
+    const editor = CodeMirror.fromTextArea(textarea, {mode: 'javascript', lineNumbers: true, theme: 'default'});
+    editor.setSize('100%', 260);
+
+    // -------------------- Playground run logic --------------------
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      const code = editor.getValue();
+      // Clear previous output
+      document.getElementById('play-output').textContent = '';
+      // Provide a safe eval-like environment for TensorFlow code
+      try {
+        const asyncWrapper = new Function('tf', 'document', code);
+        await asyncWrapper(tf, document);
+      } catch (e) {
+        document.getElementById('play-output').textContent = 'Error: ' + e.message;
+        console.error(e);
+      }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      editor.setValue(`// Simple linear regression in TensorFlow.js\nconst xs = tf.tensor1d([0,1,2,3,4]);\nconst ys = tf.tensor1d([1,3,5,7,9]); // y = 2x + 1 (noisy-free)\n\nasync function trainAndPredict(){\n  const model = tf.sequential();\n  model.add(tf.layers.dense({units:1, inputShape:[1]}));\n  model.compile({optimizer: 'sgd', loss: 'meanSquaredError'});\n\n  const history = await model.fit(xs, ys, {epochs: 50});\n  const pred = model.predict(tf.tensor1d([10]));\n  pred.print();\n  document.getElementById('play-output').textContent = 'Prediction for x=10: ' + pred.dataSync()[0].toFixed(4);\n}\n\ntrainAndPredict();`);
+    });
+
+    // -------------------- Simple chart for loss (very lightweight) --------------------
+    // We'll draw a minimal chart using canvas (no external chart library)
+    function plotLoss(canvas, values){
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = canvas.clientWidth;
+      const h = canvas.height = canvas.clientHeight;
+      ctx.clearRect(0,0,w,h);
+      if(!values || values.length===0) return;
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      ctx.beginPath();
+      values.forEach((v,i)=>{
+        const x = (i/(values.length-1))*(w-20)+10;
+        const y = h - 10 - ((v-min)/(max-min||1))*(h-20);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.strokeStyle = '#3b82f6';
+      ctx.lineWidth = 2; ctx.stroke();
+    }
+
+    // Hook into tf.fit callbacks if used — provide a helper to append loss
+    window._trainingLossHistory = [];
+    window.recordLoss = function(loss){ window._trainingLossHistory.push(loss); plotLoss(document.getElementById('lossChart'), window._trainingLossHistory); }
+
+    // -------------------- Quiz content --------------------
+    const quizQuestions = [
+      {q: 'Which of the following is supervised learning?', a: ['K-means clustering','Linear regression','PCA'], ans: 1},
+      {q: 'Which metric is appropriate for regression?', a:['Accuracy','Mean Squared Error','F1 Score'], ans:1},
+      {q: 'What does overfitting mean?', a:['Good performance on unseen data','Model memorizes training noise','Fast inference speed'], ans:1}
+    ];
+
+    function renderQuiz(){
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+      quizQuestions.forEach((item, idx)=>{
+        const div = document.createElement('div'); div.className='p-3 border rounded';
+        div.innerHTML = `<div class="font-medium">${idx+1}. ${item.q}</div>`;
+        item.a.forEach((choice, j)=>{
+          const id = 'q'+idx+'c'+j;
+          const label = document.createElement('label'); label.className='block mt-2';
+          label.innerHTML = `<input type='radio' name='q${idx}' value='${j}' id='${id}' class='mr-2'> ${choice}`;
+          div.appendChild(label);
+        });
+        container.appendChild(div);
+      });
+    }
+    renderQuiz();
+
+    document.getElementById('submitQuiz').addEventListener('click', ()=>{
+      let score = 0;
+      quizQuestions.forEach((item, idx)=>{
+        const el = document.querySelector(`input[name='q${idx}']:checked`);
+        const val = el ? Number(el.value) : -1;
+        if(val===item.ans) score++;
+      });
+      const percent = Math.round((score/quizQuestions.length)*100);
+      document.getElementById('quiz-result').textContent = `You scored ${score}/${quizQuestions.length} (${percent}%).`;
+      // auto-reveal explanations (simple)
+    });
+
+    // -------------------- Certificate generation --------------------
+    document.getElementById('certBtn').addEventListener('click', async ()=>{
+      const { jsPDF } = window.jspdf;
+      const name = prompt('Enter your full name for the certificate');
+      if(!name) return;
+      const doc = new jsPDF({orientation:'landscape', unit:'pt', format:'a4'});
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0,0, doc.internal.pageSize.width, doc.internal.pageSize.height, 'F');
+      doc.setFontSize(36); doc.setTextColor(255,255,255);
+      doc.text('Certificate of Completion', doc.internal.pageSize.width/2, 120, {align:'center'});
+      doc.setFontSize(20); doc.text(`This certifies that`, doc.internal.pageSize.width/2, 180, {align:'center'});
+      doc.setFontSize(28); doc.text(name, doc.internal.pageSize.width/2, 230, {align:'center'});
+      doc.setFontSize(16); doc.text('has completed the Interactive AI Crash Course (single-file edition).', doc.internal.pageSize.width/2, 270, {align:'center'});
+      doc.setFontSize(12); doc.text(`Date: ${new Date().toLocaleDateString()}`, doc.internal.pageSize.width/2, 320, {align:'center'});
+      doc.save('AI_Course_Certificate.pdf');
+    });
+
+    // -------------------- Personal plan button --------------------
+    document.getElementById('personalPlanBtn').addEventListener('click', ()=>{
+      const level = prompt('What is your current level? (beginner / intermediate / advanced)');
+      if(!level) return;
+      let plan = '';
+      if(level.toLowerCase().includes('begin')) plan = 'Week 1: Python basics, linear algebra. Week 2: Supervised learning. Week 3: Neural networks basics. Week 4: Mini project.';
+      else if(level.toLowerCase().includes('inter')) plan = 'Week 1: Advanced models & regularization. Week 2: CNNs & RNNs. Week 3: Deployment & MLOps. Week 4: Project and Kaggle.';
+      else plan = 'Focus on research papers, optimization, and large-scale training. Build novel models and publish results.';
+      alert('Suggested plan:\n' + plan);
+    });
+
+    // -------------------- Small helper: capture tf.fit losses --------------------
+    // This tiny helper patch allows user code to push losses to the page.
+    // Users can call `recordLoss(loss)` manually inside onEpochEnd callbacks.
+
+    // -------------------- Accessibility small improvements --------------------
+    document.addEventListener('keydown', (e)=>{ if(e.key==='/' && e.ctrlKey){ e.preventDefault(); document.getElementById('playground').scrollIntoView({behavior:'smooth'}); } });
+
+    // -------------------- Initial run to warm up tf.js (optional) --------------------
+    tf.ready().then(()=>console.log('tf.js ready'));
+  </script>
+
+  <noscript class="p-4 text-center">This page is interactive — enable JavaScript for full functionality.</noscript>
+</body>
+</html>
